@@ -20,7 +20,7 @@ load_dotenv
 PINECONE_API_KEY = os.environ.get('PINECONE_API_KEY')
 OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
 
-print("This is the pine OPENAI API Key : " + OPENAI_API_KEY)
+
 
 os.environ["PINECONE_API_KEY"] = PINECONE_API_KEY   
 
@@ -53,6 +53,7 @@ rag_chain=create_retrieval_chain(
 
 @app.route("/")
 def index():
+    print("Welcome to the MedBot")
     return render_template("chatbot.html")
 
 
