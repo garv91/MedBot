@@ -1,10 +1,18 @@
-FROM python:3.10-slim-bookworm
+FROM python:3.10-slim-buster
 
 WORKDIR /app
 
+# Copy everything
 COPY . /app
 
-RUN ls -la /app && cat requirements.txt && pip install --no-cache-dir -r requirements.txt
+# Show what got copied
+RUN echo "==> Listing contents of /app" && ls -la /app
+
+# Show the actual content of requirements.txt
+RUN echo "==> Printing requirements.txt" && cat /app/requirements.txt
+
+# Install dependencies (fail if it fails)
+RUN pip install --no-cache-dir -r /app/requirements.txt
 
 EXPOSE 8080
 
