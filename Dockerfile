@@ -1,17 +1,20 @@
-FROM python:3.10-bookworm
+# Use a modern, supported Python image
+FROM python:3.10-slim
 
+# Set working directory
 WORKDIR /app
-COPY . /app
 
-RUN apt-get update && \
-    apt-get install -y gcc build-essential && \
-    python3 -m ensurepip && \
-    python3 -m pip install --upgrade pip && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+# Copy only requirements first for better layer caching
+COPY requirements.txt .
 
-RUN python3 -m pip install --no-cache-dir -r requirements.txt
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
 
+# Copy the rest of the application
+COPY . .
+
+# Expose the Flask default port
 EXPOSE 8080
 
+# Run the application
 CMD ["python3", "app.py"]
